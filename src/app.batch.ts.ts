@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 // ** Redis Imports
-import { BatchLock } from './batch-lock.decorator';
+import { BatchLock } from '../libs/my-library/src/batch-lock.decorator';
 
 @Injectable()
 export default class AppBatch {
@@ -12,7 +12,7 @@ export default class AppBatch {
     this.run();
   }
 
-  @BatchLock({ name: 'Lock', ttl: 30 })
+  @BatchLock({ name: 'Lock', ttl: 5 })
   public run() {
     console.log('RUN');
   }

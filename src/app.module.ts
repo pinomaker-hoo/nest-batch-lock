@@ -7,7 +7,7 @@ import { DiscoveryModule } from '@nestjs/core';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 
 // ** Custom Module Imports
-import { BatchLockProvider } from './batch-lock.provider';
+import { BatchLockProvider } from '../libs/my-library/src/batch-lock.provider';
 import AppBatch from './app.batch.ts';
 
 @Module({

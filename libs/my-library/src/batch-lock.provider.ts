@@ -48,7 +48,6 @@ export class BatchLockProvider {
 
       const originalMethod = instance[methodName];
       const { name, ttl } = metadata;
-
       instance[methodName] = async (...args: unknown[]) => {
         const response = await this.validationBatch(name);
 
@@ -59,7 +58,7 @@ export class BatchLockProvider {
         await this.setRedisBatch(name, ttl);
 
         const result = await originalMethod.apply(instance, args);
-        this.initRedis(name, ttl);
+        await this.initRedis(name, ttl);
         return result;
       };
     };
@@ -67,6 +66,7 @@ export class BatchLockProvider {
 
   private async validationBatch(name: string) {
     const batch = await this.redis.get(name);
+
     return batch === null;
   }
 
@@ -74,10 +74,10 @@ export class BatchLockProvider {
     await this.redis.set(name, ttl);
   }
 
-  private initRedis(name: string, ttl: number) {
+  private async initRedis(name: string, ttl: number) {
     setTimeout(async () => {
       await this.removeRedisBatch(name);
-    }, ttl);
+    }, ttl * 1000);
   }
 
   private async removeRedisBatch(name: string) {
