@@ -31,12 +31,12 @@ export class BatchLockProvider {
         this.scanner.scanFromPrototype(
           instance,
           Object.getPrototypeOf(instance),
-          this.sendSlackAlarm(instance),
+          this.batchLock(instance),
         );
       });
   }
 
-  sendSlackAlarm(instance) {
+  batchLock(instance) {
     return (methodName) => {
       const methodRef = instance[methodName];
 
