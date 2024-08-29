@@ -1,8 +1,22 @@
 version: '3'
 services:
+  core:
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    networks:
+      - batch-lock
+    depends_on:
+      - redis
   redis:
     image: redis:latest
     ports:
       - 6379:6379
+    networks:
+      - batch-lock
     environment:
       - TZ=Asia/Seoul
+
+networks:
+  batch-lock:
